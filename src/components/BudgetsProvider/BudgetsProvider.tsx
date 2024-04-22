@@ -35,7 +35,7 @@ const BudgetsProvider = ({children}) => {
         })
     }
     
-    function addBudget({name, max}) {
+    function addBudget({name, max}: {name: string, max: number}) {
         setBudgets(prevBudgets => {
             if (prevBudgets.find(budget => budget.name === name)) {
                 return prevBudgets;
@@ -45,11 +45,17 @@ const BudgetsProvider = ({children}) => {
     }
 
     function deleteBudget({ id }) {
-        // TODO: expenses from deleted budget not properly uncategorized
-        setBudgets(prevBudgets => {
-            return prevBudgets.filter(budget => budget.id !== id);
+        setExpenses(prevExpenses => {
+          return prevExpenses.map(expense => {
+            if (expense.budgetId !== id) return expense
+            return { ...expense, budgetId: UNCATEGORIZED_BUDGET_ID }
+          })
         })
-    }
+    
+        setBudgets(prevBudgets => {
+          return prevBudgets.filter(budget => budget.id !== id)
+        })
+      }
 
     function deleteExpense({ id }) {
         setExpenses(prevExpenses => {
@@ -77,6 +83,6 @@ const useBudgets = () => {
     const budgetsHelpers = useContext(BudgetsContext);
     return budgetsHelpers;
 };
-
-export {BudgetsContext, useBudgets};
+const UNCATEGORIZED_BUDGET_ID = "Uncategorized";
+export {BudgetsContext, useBudgets, UNCATEGORIZED_BUDGET_ID};
 export default BudgetsProvider;
