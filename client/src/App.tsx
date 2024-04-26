@@ -3,7 +3,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import BudgetCard from './components/BudgetCard/BudgetCard';
 import UncategorizedBudgetCard from "./components/UncategorizedBudgetCard/UncategorizedBudgetCard";
 import Container from "react-bootstrap/Container";
-import { Button, Stack} from "react-bootstrap";
+import { Button, Stack, Nav, Navbar, Offcanvas} from "react-bootstrap";
+import Logo from './assets/logo.png'
 import "./App.css";
 
 import { UNCATEGORIZED_BUDGET_ID, useBudgets } from "./components/BudgetsProvider/BudgetsProvider";
@@ -26,9 +27,32 @@ export default function App() {
 
   return (
     <>
+        <Navbar key={false} expand={false} className="bg-body-tertiary mb-3">
+          <Navbar.Brand href="#home">
+            <img src={Logo} alt="Logo" />
+              Budgets
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
+          <Navbar.Offcanvas
+              id={`offcanvasNavbar-expand-${false}`}
+              aria-labelledby={`offcanvasNavbarLabel-expand-${false}`}
+              placement="end"
+            >
+              <Offcanvas.Header closeButton>
+                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${false}`}>
+                  Budget Tools
+                </Offcanvas.Title>
+              </Offcanvas.Header>
+              <Offcanvas.Body>
+                <Nav className="justify-content-end flex-grow-1 pe-3">
+                  <Nav.Link href="#action1">Home</Nav.Link>
+                  <Nav.Link href="#action2">Link</Nav.Link>
+                </Nav>
+              </Offcanvas.Body>
+          </Navbar.Offcanvas>
+        </Navbar>
         <Container className="my-4" >
-            <Stack direction="horizontal" gap={2} className="mb-4">
-              <h1 className="me-auto" >Budgets</h1>
+              <Stack direction="horizontal" gap={2} className="mb-4">
               <Button variant="primary" onClick={() => setBudgetModal(true)}>
                 Add Budget</Button>
               <Button variant="outline-primary" 

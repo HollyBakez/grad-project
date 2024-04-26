@@ -6,3 +6,8 @@
   align-items: "flex-start";
 
 }
+
+img {
+  padding-left: 10px;
+  padding-right: 10px;
+}
