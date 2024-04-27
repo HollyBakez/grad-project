@@ -1,6 +1,6 @@
 import express from "express";
 import Budget from '../models/budgetModel';
-import {createBudget, getBudgets, deleteBudget} from '../controllers/budgetController';
+import {createBudget, getBudgets, deleteBudget, updateBudget} from '../controllers/budgetController';
 const router = express.Router();
 
 
@@ -20,10 +20,7 @@ router.post('/', createBudget);
 router.delete('/:id', deleteBudget);
 
 // UPDATE a single budget
-router.patch('/:id', (req: express.Request, res: express.Response) => {
-
-    res.json({mssg: 'UPDATE a single budget'});
-})
+router.patch('/:id', updateBudget);
 
 
 export default router;

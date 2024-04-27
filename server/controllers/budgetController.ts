@@ -35,7 +35,25 @@ const deleteBudget = async (req: express.Request, res: express.Response) => {
       return res.status(400).json({error: 'No such budget'});
     }
   
-    res.status(200).json(budget)
+    res.status(200).json(budget);
 }
 
-export {createBudget, getBudgets, deleteBudget};
+const updateBudget = async (req: express.Request, res: express.Response) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({error: 'No such budget'});
+    }
+  
+    const budget = await Budget.findOneAndUpdate({_id: id}, {
+        ...req.body
+    });
+  
+    if(!budget) {
+      return res.status(400).json({error: 'No such budget'});
+    }
+  
+    res.status(200).json(budget);
+}
+
+export {createBudget, getBudgets, deleteBudget, updateBudget};
