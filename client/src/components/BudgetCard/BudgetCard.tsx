@@ -48,7 +48,7 @@ const BudgetCard = (budgetCardProps: BudgetCardProps) => {
                         Add Expense
                     </Button>
                     <Button variant="outline-secondary" onClick={budgetCardProps.onViewExpensesClick}>
-                        View Expense
+                        View/Edit Expenses
                     </Button>
                 </Stack>: null}
             </Card.Body>

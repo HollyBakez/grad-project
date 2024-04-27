@@ -1,11 +1,11 @@
 import express from "express";
-
+import Budget from '../models/budgetModel';
+import {createBudget, getBudgets, deleteBudget} from '../controllers/budgetController';
 const router = express.Router();
 
+
 // GET all budgets
-router.get('/test', (req: express.Request, res: express.Response) => {
-    res.json({mssg: "GET budget for id"});
-})
+router.get('/', getBudgets);
 
 // GET a single budget
 router.get('/:id', (req: express.Request, res: express.Response) => {
@@ -13,16 +13,11 @@ router.get('/:id', (req: express.Request, res: express.Response) => {
     res.json({mssg: 'GET a single budget'});
 })
 
-// POST a single budget
-router.post('/', (req: express.Request, res: express.Response) => {
-    res.json({mssg: 'POST a single budget'});
-})
+// POST a new budget
+router.post('/', createBudget);
 
 // DELETE a single budget
-router.delete('/:id', (req: express.Request, res: express.Response) => {
-
-    res.json({mssg: 'DELETE a single budget'});
-})
+router.delete('/:id', deleteBudget);
 
 // UPDATE a single budget
 router.patch('/:id', (req: express.Request, res: express.Response) => {
