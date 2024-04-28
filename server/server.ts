@@ -2,11 +2,15 @@ import express from "express";
 import 'dotenv/config';
 import budgetRoutes from "./routes/budgets";
 import mongoose from "mongoose";
+import cors from "cors";
+
 // express app
 const app = express()
 
 // middleware to log incoming requests
 app.use(express.json());
+
+app.use(cors());
 
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
     console.log(req.path, req.method);
