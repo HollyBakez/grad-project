@@ -9,6 +9,23 @@ const getBudgets = async (req: express.Request, res: express.Response) => {
     res.status(200).json(budgets);
 }
 
+// get a single budget
+const getBudget = async (req: express.Request, res: express.Response) => {
+    const { id } = req.params;
+  
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).json({error: 'No such workout'})
+    }
+  
+    const budget = await Budget.findById(id);
+  
+    if (!budget) {
+      return res.status(404).json({error: 'No such workout'});
+    }
+  
+    res.status(200).json(budget);
+  }
+
 // create a new budget
 const createBudget = async (req: express.Request, res: express.Response) => {
     const {name, max} = req.body;
@@ -56,4 +73,4 @@ const updateBudget = async (req: express.Request, res: express.Response) => {
     res.status(200).json(budget);
 }
 
-export {createBudget, getBudgets, deleteBudget, updateBudget};
+export {createBudget, getBudgets, getBudget, deleteBudget, updateBudget};
