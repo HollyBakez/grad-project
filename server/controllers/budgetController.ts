@@ -28,11 +28,11 @@ const getBudget = async (req: express.Request, res: express.Response) => {
 
 // create a new budget
 const createBudget = async (req: express.Request, res: express.Response) => {
-    const {name, max} = req.body;
+    const {id, name, max} = req.body;
 
     // add doc to db
     try {
-        const budget = await Budget.create({name, max});
+        const budget = await Budget.create({id, name, max});
         res.status(200).json(budget);
     } catch (error: any) {
         res.status(400).json({error: error.message});
@@ -47,7 +47,7 @@ const deleteBudget = async (req: express.Request, res: express.Response) => {
       return res.status(400).json({error: 'No such budget'});
     }
   
-    const budget = await Budget.findOneAndDelete({_id: id});
+    const budget = await Budget.findOneAndDelete({ id: id});
   
     if(!budget) {
       return res.status(400).json({error: 'No such budget'});
@@ -64,7 +64,7 @@ const updateBudget = async (req: express.Request, res: express.Response) => {
       return res.status(400).json({error: 'No such budget'});
     }
   
-    const budget = await Budget.findOneAndUpdate({_id: id}, {
+    const budget = await Budget.findOneAndUpdate({ id: id}, {
         ...req.body
     });
   
@@ -116,26 +116,7 @@ const createExpense = async (req: express.Request, res: express.Response) => {
   }
 }
 
-// delete a single expense from a budget
-// const deleteExpense = async (req: express.Request, res: express.Response) => {
-//   const { id } = req.params;
-
-//   if (!mongoose.Types.ObjectId.isValid(id)) {
-//     return res.status(400).json({error: 'No such budget'});
-//   }
-
-//   const budget = await Budget.findOneAndDelete({_id: id});
-
-//   if(!budget) {
-//     return res.status(400).json({error: 'No such budget'});
-//   }
-
-//   res.status(200).json(budget);
-// }
-
-// TODO: update a single expense from a budget
-// add update route logic here
 
 
 
-export {createBudget, getBudgets, getBudget, deleteBudget, updateBudget, getExpenses, createExpense};
+export {createBudget, getBudgets, getBudget, deleteBudget, updateBudget};
