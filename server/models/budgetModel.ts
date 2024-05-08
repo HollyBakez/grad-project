@@ -6,7 +6,8 @@ const Schema = mongoose.Schema;
 const budgetSchema = new Schema({
     id: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     name: {
         type: String,

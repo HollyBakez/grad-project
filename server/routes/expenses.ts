@@ -1,6 +1,6 @@
 import express from "express";
 import Expense from '../models/expenseModel';
-import {createExpense, getExpenses, getExpense, deleteExpense, updateExpense} from '../controllers/expenseController';
+import {createExpense, getExpenses, getExpense, getBudgetExpenses, deleteExpense, updateExpense} from '../controllers/expenseController';
 const router = express.Router();
 
 // expense routes
@@ -10,6 +10,9 @@ router.get('/', getExpenses);
 
 // GET a single expense
 router.get('/:id', getExpense);
+
+// GET all expenses for a given budget id
+router.get('/:budgetId', getBudgetExpenses)
 
 // POST a new expense
 router.post('/', createExpense);

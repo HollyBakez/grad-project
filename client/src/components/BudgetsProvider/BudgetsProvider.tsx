@@ -2,11 +2,15 @@ import React, { useContext, useState } from 'react';
 import BudgetCard from '../BudgetCard/BudgetCard';
 import { v4 as uuidV4 } from 'uuid';
 import useLocalStorage  from '../../hooks/useLocalStorage';
+import { getData } from '../../utils/RESTHelpers';
 
+const HTTP_PROTOCOL: string = 'http';
+const serverAddress: string = 'localhost';
+const serverPort: string = '4000';
 
 const BudgetsContext = React.createContext(null);
 
-// Data structure for 
+// Data structure (Schema) for 
 // Budget
 //{
 //     id:
@@ -26,7 +30,19 @@ const BudgetsProvider = ({children}) => {
     const [expenses, setExpenses] = useLocalStorage("expenses", [])
 
     function getBudgetExpenses(budgetId: uuidV4) {
-        return expenses.filter((expense) => expense.budgetId === budgetId);
+        const url = `${HTTP_PROTOCOL}://${serverAddress}:${serverPort}/api/expenses/?budgetId=${budgetId}`;
+        let budgetExpenses: Array<never> = [];
+        getData(url)
+        .then((data) => {
+            console.log("Data from get budget expenses: ",data);
+            budgetExpenses = data;
+        });
+        if (budgetExpenses.length === 0 ) {
+            return [];
+        }
+
+        return budgetExpenses.filter((expense) => expense.budgetId === budgetId);
+        //return expenses.filter((expense) => expense.budgetId === budgetId);
     }
     
     function addExpense({description, amount, budgetId}) {

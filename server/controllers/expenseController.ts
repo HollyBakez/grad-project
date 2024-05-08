@@ -9,12 +9,24 @@ const getExpenses = async (req: express.Request, res: express.Response) => {
     res.status(200).json(expenses);
 }
 
+// get budget expenses
+// get all expenses given a budget id
+const getBudgetExpenses = async (req: express.Request, res: express.Response) => {
+  const { budgetId } = req.params;
+  const expenses = await Expense.find({budgetId: budgetId});
+  if (!expenses) {
+    return res.status(404).json({error: 'No expenses for this budget id'});
+  }
+
+  res.status(200).json(expenses);
+}
+
 // get a single expense
 const getExpense = async (req: express.Request, res: express.Response) => {
     const { id } = req.params;
   
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(404).json({error: 'No such expense'})
+      return res.status(404).json({error: 'No such expense'});
     }
   
     const expense = await Expense.findById(id);
@@ -30,6 +42,7 @@ const getExpense = async (req: express.Request, res: express.Response) => {
 const createExpense = async (req: express.Request, res: express.Response) => {
     const {id, budgetId, amount, description} = req.body;
 
+    
     // add doc to db
     try {
         const expense = await Expense.create({id, budgetId, amount, description});
@@ -75,4 +88,4 @@ const updateExpense = async (req: express.Request, res: express.Response) => {
     res.status(200).json(expense);
 }
 
-export {createExpense, getExpenses, getExpense, deleteExpense, updateExpense};
+export {createExpense, getExpenses, getExpense, getBudgetExpenses, deleteExpense, updateExpense};
