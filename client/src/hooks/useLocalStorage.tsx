@@ -23,9 +23,9 @@ export default function useLocalStorage(key: any, defaultValue: any) {
         //const jsonValue = getData(url);
         let jsonValue = null;
         getData(url)
-        .then((value) => {
-            console.log("This is the get value from the key", value);
-            jsonValue = value;
+        .then((data) => {
+            console.log("This is the get value from the key", data);
+            jsonValue = data;
         });
 
 
@@ -59,11 +59,17 @@ export default function useLocalStorage(key: any, defaultValue: any) {
         //     console.log(data);
         // }).catch((err) => console.log(err));
 
-        
+
         // for (let i = 0; i < value.length; i ++) {
         //     postData(url, value[i])
         // }
-        postData(url, value);
+
+        // check for undefined to avoid empty POST reqs
+        if (!value && value.length != 0) {
+            postData(url, value);
+            console.log("Posted", value);
+        }
+
 
         //localStorage.setItem(key, JSON.stringify(value));
     }, [key, value]);

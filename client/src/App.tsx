@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BudgetCard from './components/BudgetCard/BudgetCard';
 import UncategorizedBudgetCard from "./components/UncategorizedBudgetCard/UncategorizedBudgetCard";
@@ -12,13 +12,53 @@ import AddBudgetModal from "./components/AddBudgetModal/AddBudgetModal";
 import AddExpensesModal from "./components/AddExpensesModal/AddExpensesModal";
 import TotalBudgetCard from "./components/TotalBudgetCard/TotalBudgetCard";
 import ViewExpensesModal from "./components/ViewExpenses/ViewExpensesModal";
+import { getData, postData } from "./utils/RESTHelpers";
+
+const HTTP_PROTOCOL: string = 'http';
+const serverAddress: string = 'localhost';
+const serverPort: string = '4000';
 
 export default function App() {
-  const { budgets, getBudgetExpenses } = useBudgets();
+  const { budgets, getBudgetExpenses, setBudgets, setExpenses } = useBudgets();
   const [showBudgetModal, setBudgetModal] = useState(false);
   const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
   const [viewExpensesModalBudgetId, setViewExpensesModalBudgetId] = useState()
   const [addExpenseModalBudgetId, setAddExpenseModalBudgetId] = useState();
+
+  // initial render when starting session
+  useEffect(() => {
+    const budgetUrl = `${HTTP_PROTOCOL}://${serverAddress}:${serverPort}/api/budgets/`;
+    const expenseUrl = `${HTTP_PROTOCOL}://${serverAddress}:${serverPort}/api/expenses/`;
+    // getData(budgetUrl)
+    // .then((budgetsData) => {
+    //   setBudgets(budgetsData);
+    // });
+
+    // getData(expenseUrl)
+    // .then((expensesData) => {
+    //   setExpenses(expensesData);
+    // });
+
+    const budgetData = getData(budgetUrl)
+    .then((budgetsData) => {
+      return budgetsData;
+    });
+
+    const expenseData = getData(expenseUrl)
+    .then((expensesData) => {
+      return expensesData;
+    });
+    const fetchBudgetAndExpense = async () => {
+      const tempLoadedBudget = await budgetData;
+      const tempLoadedExpense = await expenseData;
+      setBudgets(tempLoadedBudget);
+      setExpenses(tempLoadedExpense);
+    }
+
+    fetchBudgetAndExpense();
+
+  }, [setBudgets, setExpenses]);
+
 
   function openAddExpenseModal(budgetId?: number) {
     setShowAddExpenseModal(true);
@@ -61,9 +101,9 @@ export default function App() {
             <div className="card-grid">
               {budgets.map(budget => {
                 const amount = getBudgetExpenses(budget.id).reduce(
-                  (total, expense) => total + expense.amount, 0
+                  (total , expense) => total + expense.amount, 0
                 );
-
+                console.log(amount); // remove me
                 return (
                   <BudgetCard
                     key={budget.id} 

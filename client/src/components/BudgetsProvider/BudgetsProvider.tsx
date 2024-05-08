@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import BudgetCard from '../BudgetCard/BudgetCard';
 import { v4 as uuidV4 } from 'uuid';
 import useLocalStorage  from '../../hooks/useLocalStorage';
-import { getData } from '../../utils/RESTHelpers';
+import { getData, postData } from '../../utils/RESTHelpers';
 
 const HTTP_PROTOCOL: string = 'http';
 const serverAddress: string = 'localhost';
@@ -24,6 +24,7 @@ const BudgetsContext = React.createContext(null);
 //     amount:
 //     description:
 // }
+
 const BudgetsProvider = ({children}) => {
     // TODO: Replace using localStorage with POST and GET data to future API endpoint.
     const [budgets, setBudgets] = useLocalStorage("budgets", [])
@@ -31,33 +32,64 @@ const BudgetsProvider = ({children}) => {
 
     function getBudgetExpenses(budgetId: uuidV4) {
         const url = `${HTTP_PROTOCOL}://${serverAddress}:${serverPort}/api/expenses/?budgetId=${budgetId}`;
-        let budgetExpenses: Array<never> = [];
+        let budgetExpenses =[];
+        
         getData(url)
         .then((data) => {
             console.log("Data from get budget expenses: ",data);
             budgetExpenses = data;
-        });
-        if (budgetExpenses.length === 0 ) {
-            return [];
-        }
 
+            // return budgetExpenses.filter((expense) => expense.budgetId === budgetId);
+        });
+        
         return budgetExpenses.filter((expense) => expense.budgetId === budgetId);
         //return expenses.filter((expense) => expense.budgetId === budgetId);
     }
     
     function addExpense({description, amount, budgetId}) {
-        setExpenses(prevExpense => {
-            return [...prevExpense, {id: uuidV4(), description, amount, budgetId}];
-        })
+        const url = `${HTTP_PROTOCOL}://${serverAddress}:${serverPort}/api/expenses/`;
+
+        const data = {
+            id: uuidV4(),
+            budgetId: budgetId,
+            amount: amount,
+            description: description
+        }
+
+        postData(url, data)
+        .then(() => {
+           getData(url)
+           .then((expenseData) => {
+            setExpenses(expenseData);
+           })
+        }
+        );
+        // setExpenses(prevExpense => {
+        //     return [...prevExpense, {id: uuidV4(), description, amount, budgetId}];
+        // })
     }
     
     function addBudget({name, max}: {name: string, max: number}) {
-        setBudgets(prevBudgets => {
-            if (prevBudgets.find(budget => budget.name === name)) {
-                return prevBudgets;
-            }
-            return [...prevBudgets, {id: uuidV4(), name, max}];
-        })
+        const url = `${HTTP_PROTOCOL}://${serverAddress}:${serverPort}/api/budgets/`;
+        const data = {
+            id: uuidV4(),
+            name: name,
+            max: max
+        }
+        postData(url, data)
+        .then(() => {
+           getData(url)
+           .then((budgetData) => {
+            setBudgets(budgetData);
+           })
+        }
+        );
+        // setBudgets(prevBudgets => {
+        //     if (prevBudgets.find(budget => budget.name === name)) {
+        //         return prevBudgets;
+        //     }
+        //     return [...prevBudgets, {id: uuidV4(), name, max}];
+        // })
     }
 
     function deleteBudget({ id }) {
@@ -87,7 +119,9 @@ const BudgetsProvider = ({children}) => {
             addExpense,
             addBudget,
             deleteBudget,
-            deleteExpense
+            deleteExpense,
+            setBudgets, 
+            setExpenses
             }}>
 
             {children}
