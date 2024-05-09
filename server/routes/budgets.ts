@@ -9,7 +9,7 @@ const router = express.Router();
 router.get('/', getBudgets);
 
 // GET a single budget
-router.get('/:id', getBudget);
+router.get('/budget/:id', getBudget);
 
 // POST a new budget
 router.post('/', createBudget);

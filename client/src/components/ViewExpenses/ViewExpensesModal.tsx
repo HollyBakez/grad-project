@@ -8,6 +8,7 @@ interface ViewExpensesModalProps {
 }
 
 const ViewExpensesModal = (viewExpensesModalProps: ViewExpensesModalProps) => {
+  // TODO: Need to replace getBudgetExpenses here with its own function 
     const { getBudgetExpenses, budgets, deleteBudget, deleteExpense } = useBudgets();
     const expenses = getBudgetExpenses(viewExpensesModalProps.budgetId)
     const budget =

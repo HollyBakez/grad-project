@@ -41,16 +41,13 @@ const createBudget = async (req: express.Request, res: express.Response) => {
 
 // delete a single budget
 const deleteBudget = async (req: express.Request, res: express.Response) => {
-    const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({error: 'No such budget'});
-    }
-  
+    const { id } = req.params;
     const budget = await Budget.findOneAndDelete({ id: id});
   
-    if(!budget) {
-      return res.status(400).json({error: 'No such budget'});
+    if (!budget) {
+      const errorLog = `No budget for the provided id of ${id}`;
+      return res.status(404).json({error: errorLog});
     }
   
     res.status(200).json(budget);

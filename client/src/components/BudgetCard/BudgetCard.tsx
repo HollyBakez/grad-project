@@ -35,7 +35,6 @@ const BudgetCard = (budgetCardProps: BudgetCardProps) => {
 
   useEffect(() => {
     getBudgetExpenses(budgetCardProps.budgetId);
-    // },[addExpense, budgetCardProps.budgetId]);
   }, [addExpense]);
 
   const getBudgetExpenses = (budgetId: uuidV4) => {

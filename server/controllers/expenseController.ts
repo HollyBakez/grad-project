@@ -56,20 +56,17 @@ const createExpense = async (req: express.Request, res: express.Response) => {
 const deleteExpense = async (req: express.Request, res: express.Response) => {
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({error: 'No such expense'});
-    }
-  
     const expense = await Expense.findOneAndDelete({ id: id});
   
     if(!expense) {
-      return res.status(400).json({error: 'No such expense'});
+      const errorLog = `No expense for the provided id of ${id}`;
+      return res.status(404).json({error: errorLog});
     }
   
     res.status(200).json(expense);
 }
 
-// update a expense
+// update a single expense
 const updateExpense = async (req: express.Request, res: express.Response) => {
     const { id } = req.params;
 
@@ -88,4 +85,19 @@ const updateExpense = async (req: express.Request, res: express.Response) => {
     res.status(200).json(expense);
 }
 
-export {createExpense, getExpenses, getExpense, getBudgetExpenses, deleteExpense, updateExpense};
+// update expenses' budgetId to "Uncategorized" after deletion of its parent category Budget
+const updateExpensesToUncategorized = async (req: express.Request, res: express.Response) => {
+  const { budgetId } = req.params;
+
+  const foundExpenses = await Expense.find({budgetId: budgetId});
+  if (!foundExpenses) {
+    return res.status(404).json({error: 'No expenses for this budget id'});
+  }
+
+  const updatedExpenses = await Expense.updateMany({ budgetId: budgetId }, {budgetId : "Uncategorized"});
+
+
+  res.status(200).json(updatedExpenses);
+}
+
+export {createExpense, getExpenses, getExpense, getBudgetExpenses, deleteExpense, updateExpense, updateExpensesToUncategorized};
