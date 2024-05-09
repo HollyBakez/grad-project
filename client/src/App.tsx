@@ -19,7 +19,7 @@ const serverAddress: string = 'localhost';
 const serverPort: string = '4000';
 
 export default function App() {
-  const { budgets, getBudgetExpenses, setBudgets, setExpenses } = useBudgets();
+  const { budgets, setBudgets, setExpenses } = useBudgets();
   const [showBudgetModal, setBudgetModal] = useState(false);
   const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
   const [viewExpensesModalBudgetId, setViewExpensesModalBudgetId] = useState()
@@ -100,15 +100,11 @@ export default function App() {
             </Stack>
             <div className="card-grid">
               {budgets.map(budget => {
-                const amount = getBudgetExpenses(budget.id).reduce(
-                  (total , expense) => total + expense.amount, 0
-                );
-                console.log(amount); // remove me
                 return (
                   <BudgetCard
                     key={budget.id} 
+                    budgetId={budget.id}
                     name={budget.name} 
-                    amount={amount} 
                     max={budget.max}
                     onAddExpenseClick={() => openAddExpenseModal(budget.id)}
                     onViewExpensesClick={() => setViewExpensesModalBudgetId(budget.id)}
