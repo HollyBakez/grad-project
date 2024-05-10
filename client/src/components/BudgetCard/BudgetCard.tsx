@@ -55,6 +55,19 @@ const BudgetCard = (budgetCardProps: BudgetCardProps) => {
       });
   };
 
+  // conditions to handle changing the color of the cards based on the budgetExpenses/amount to max ratio
+  const classNames = [];
+
+  if (typeof budgetCardProps.amount !== "undefined" && budgetCardProps.amount > budgetCardProps.max) {
+    classNames.push("bg-danger", "bg-opacity-10");
+  }
+  else if (budgetExpenses > budgetCardProps.max) {
+    classNames.push("bg-danger", "bg-opacity-10");
+  }
+  else if (budgetCardProps.gray) {
+    classNames.push("bg-light");
+  }
+
   return (
     <>
       {isLoading ? (
@@ -63,7 +76,7 @@ const BudgetCard = (budgetCardProps: BudgetCardProps) => {
         </Spinner>
       ) : (
         <div className="budget-card">
-          <Card>
+          <Card className={classNames.join(" ")}>
             <Card.Body>
               <Card.Title
                 className="d-flex justify-content-between 
@@ -72,8 +85,7 @@ const BudgetCard = (budgetCardProps: BudgetCardProps) => {
                 <div>{budgetCardProps.name}</div>
                 <div>
                   {/* Check for if an amount and hideButtons was passed, if it was then we know this is for the Total card and we use the budgetCardProps.amount */}
-                  {typeof budgetCardProps.amount !== "undefined" &&
-                  typeof budgetCardProps.hideButtons !== "undefined"
+                  {typeof budgetCardProps.amount !== "undefined"
                     ? currencyFormatter.format(budgetCardProps.amount)
                     : currencyFormatter.format(budgetExpenses)}
                   {budgetCardProps.max ? (
