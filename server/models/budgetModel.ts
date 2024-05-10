@@ -1,9 +1,14 @@
 import mongoose from 'mongoose';
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
+
 
 const budgetSchema = new Schema({
-    
+    id: {
+        type: String,
+        required: true,
+        unique: true
+    },
     name: {
         type: String,
         required: true 
@@ -12,6 +17,7 @@ const budgetSchema = new Schema({
         type: Number,
         required: true
     }
+
 }, { timestamps: true})
 
 export default mongoose.model('Budget', budgetSchema);

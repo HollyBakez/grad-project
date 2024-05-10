@@ -1,6 +1,7 @@
 import express from "express";
 import 'dotenv/config';
 import budgetRoutes from "./routes/budgets";
+import expenseRoutes from "./routes/expenses";
 import mongoose from "mongoose";
 import cors from "cors";
 
@@ -19,6 +20,8 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
 
 // routes
 app.use('/api/budgets', budgetRoutes);
+
+app.use('/api/expenses', expenseRoutes);
 
 // connect to db
 mongoose.connect(process.env.MONGO_URI || '')
