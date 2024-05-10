@@ -5,22 +5,9 @@ const HTTP_PROTOCOL: string = 'http';
 const serverAddress: string = 'localhost';
 const serverPort: string = '4000';
 
-export default function useLocalStorage(key: any, defaultValue: any) {
+export default function useRestServer(key: any, defaultValue: any) {
     const [value, setValue] = useState(() => {
         const url: string = `${HTTP_PROTOCOL}://${serverAddress}:${serverPort}/api/${key}/`;
-        // const jsonValue = fetch(url, {
-        //     method: "GET",
-        //     mode: "cors",
-        //     cache: "no-cache",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        // }).then(data => {
-        //     console.log(data);
-        //     return data.json();
-        // }).catch((err) => console.log(err));
-
-        //const jsonValue = getData(url);
         let jsonValue = null;
         getData(url)
         .then((data) => {
@@ -30,7 +17,6 @@ export default function useLocalStorage(key: any, defaultValue: any) {
 
 
         if (jsonValue != null) {
-            // return JSON.parse(jsonValue);
             return jsonValue;
         }
 
@@ -46,23 +32,6 @@ export default function useLocalStorage(key: any, defaultValue: any) {
 
     useEffect(() => {
         const url: string = `${HTTP_PROTOCOL}://${serverAddress}:${serverPort}/api/${key}/`;
-        // TODO: Replace with helper function POST
-        // fetch(url, {
-        //     method: "POST",
-        //     mode: "cors",
-        //     cache: "no-cache",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify(value),
-        // }).then((data) => {
-        //     console.log(data);
-        // }).catch((err) => console.log(err));
-
-
-        // for (let i = 0; i < value.length; i ++) {
-        //     postData(url, value[i])
-        // }
 
         // check for undefined to avoid empty POST reqs
         if (!value && value.length != 0) {
@@ -70,8 +39,6 @@ export default function useLocalStorage(key: any, defaultValue: any) {
             console.log("Posted", value);
         }
 
-
-        //localStorage.setItem(key, JSON.stringify(value));
     }, [key, value]);
 
 

@@ -12,7 +12,7 @@ import AddBudgetModal from "./components/AddBudgetModal/AddBudgetModal";
 import AddExpensesModal from "./components/AddExpensesModal/AddExpensesModal";
 import TotalBudgetCard from "./components/TotalBudgetCard/TotalBudgetCard";
 import ViewExpensesModal from "./components/ViewExpenses/ViewExpensesModal";
-import { getData, postData } from "./utils/RESTHelpers";
+import { getData } from "./utils/RESTHelpers";
 
 const HTTP_PROTOCOL: string = 'http';
 const serverAddress: string = 'localhost';
@@ -29,15 +29,6 @@ export default function App() {
   useEffect(() => {
     const budgetUrl = `${HTTP_PROTOCOL}://${serverAddress}:${serverPort}/api/budgets/`;
     const expenseUrl = `${HTTP_PROTOCOL}://${serverAddress}:${serverPort}/api/expenses/`;
-    // getData(budgetUrl)
-    // .then((budgetsData) => {
-    //   setBudgets(budgetsData);
-    // });
-
-    // getData(expenseUrl)
-    // .then((expensesData) => {
-    //   setExpenses(expensesData);
-    // });
 
     const budgetData = getData(budgetUrl)
     .then((budgetsData) => {

@@ -35,9 +35,6 @@ const UncategorizedBudgetCard = (props) => {
           });
       };
 
-    // const amount = getBudgetExpenses(UNCATEGORIZED_BUDGET_ID).reduce(
-    //     (total, expense) => total + expense.amount, 0
-    //   );
     
     if (budgetExpenses == 0) {
         return null;
