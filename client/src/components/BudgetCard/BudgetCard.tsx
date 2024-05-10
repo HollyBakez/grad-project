@@ -38,7 +38,7 @@ const BudgetCard = (budgetCardProps: BudgetCardProps) => {
   }, [addExpense]);
 
   const getBudgetExpenses = (budgetId: uuidV4) => {
-    const url: string = `${HTTP_PROTOCOL}://${serverAddress}:${serverPort}/api/expenses/?budgetId=${budgetId}`;
+    const url: string = `${HTTP_PROTOCOL}://${serverAddress}:${serverPort}/api/expenses/budgetId/${budgetId}`;
 
     getData(url)
       .then((data) => {
