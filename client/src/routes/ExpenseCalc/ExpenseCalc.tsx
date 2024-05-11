@@ -8,7 +8,7 @@ export default function ExpenseCalc() {
     const [essentialExpenses, setEssentialExpenses] = useState<number>(0);
     const [retireContrib, setRetireContrib] = useState<number>(0);
     const [emergencyFunds, setEmergencyFunds] = useState<number>(0);
-    const [remainingFunds, setReaminingFunds] = useState<number>(0);
+    const [remainingFunds, setRemainingFunds] = useState<number>(0);
     const [isSubmitted, setIsSubmitted] = useState(false);
 
     const handleSubmit = (e) => {
@@ -17,7 +17,7 @@ export default function ExpenseCalc() {
         setEssentialExpenses((grossIncomeFormVal * .50));
         setRetireContrib((grossIncomeFormVal *.15));
         setEmergencyFunds((grossIncomeFormVal* .05));
-        setReaminingFunds((grossIncomeFormVal*.30));
+        setRemainingFunds((grossIncomeFormVal*.30));
         setIsSubmitted(true);
 
     }
@@ -31,7 +31,7 @@ export default function ExpenseCalc() {
         setEssentialExpenses(0);
         setRetireContrib(0);
         setEmergencyFunds(0);
-        setReaminingFunds(0);
+        setRemainingFunds(0);
         setIsSubmitted(false);
     }
 
@@ -47,7 +47,7 @@ export default function ExpenseCalc() {
                     <InputGroup.Text>.00</InputGroup.Text>
                 </InputGroup>
                 <Form.Text className="text-muted">
-                    Enter your gross income to calculate your recommended expenses
+                    Enter your gross income to calculate your recommended expenses.
                 </Form.Text>
             </Form.Group>
             <Stack direction="horizontal" gap={5} className="mb-4">

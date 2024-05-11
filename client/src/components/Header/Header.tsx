@@ -5,9 +5,9 @@ import Logo from '../../assets/logo.png';
 export default function Header() {
     return (
         <Navbar key={false} expand={false} className="bg-body-tertiary mb-3">
-        <Navbar.Brand href="#home">
+        <Navbar.Brand href="/">
           <img src={Logo} alt="Logo" />
-            Budgets
+            FINSTAB
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
         <Navbar.Offcanvas
@@ -17,7 +17,7 @@ export default function Header() {
           >
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${false}`}>
-                Budget Tools
+                FINSTAB Budgeting Tools
               </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>

@@ -1,7 +1,3 @@
-.button {
-    
-}
-
 .card-grid {
     display: grid;
     grid-template-columns: repeat(Auto-fill, minmax(300px, 1fr));
