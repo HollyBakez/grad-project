@@ -59,7 +59,7 @@ export default function SavingsCalc() {
                     Enter how much money you want to have saved up.
                 </Form.Text>
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formGrossIncome" controlId="validationCustom04">
+            <Form.Group className="mb-3" controlId="validationCustom04">
                 <FormLabel>Target Date</FormLabel>
                         <Form.Control formMethod="post" type="date" 
                     name="targetDate" value={savingTargetFormVal} onChange={handleSavingTargetChange} min={new Date().toJSON().slice(0, 10)} required/>
