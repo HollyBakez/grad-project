@@ -43,10 +43,9 @@ export default function ExpenseCalc() {
                 <InputGroup className="mb-3">
                     <InputGroup.Text>$</InputGroup.Text>
                         <Form.Control aria-label="Amount (to the nearest dollar)" formMethod="post" type="number" min={0} step="any" placeholder={currencyFormatter.format(100000)} 
-                    name="grossIncome" onSubmit={handleSubmit} value={grossIncomeFormVal} onChange={handleGrossIncomeChange}/>
+                    name="grossIncome" value={grossIncomeFormVal} onChange={handleGrossIncomeChange}/>
                     <InputGroup.Text>.00</InputGroup.Text>
                 </InputGroup>
-
                 <Form.Text className="text-muted">
                     Enter your gross income to calculate your recommended expenses
                 </Form.Text>
