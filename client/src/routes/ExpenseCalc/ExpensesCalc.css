@@ -1,0 +1,12 @@
+.button {
+    
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(Auto-fill, minmax(300px, 1fr));
+    row-gap: 1rem;
+    column-gap: 1rem;
+    align-items: "flex-start";
+  
+  }
